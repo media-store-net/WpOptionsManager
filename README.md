@@ -1,10 +1,5 @@
 # WP Options Manager
 
-[![Version]()]()
-[![Status]()]()
-[![Downloads]()]()
-[![License]()]()
-
 
 ## Description
 By developing WordPress Plugins and Themes sometimes you need store your own Project-Settings into 
@@ -39,10 +34,8 @@ When installed for development, via Composer requires:
 * inpsyde/php-coding-standards
 
 ## Documentation
-1. How to use
-2. ...
-3. ...
-4. ...
+1. [First Steps](https://github.com/media-store-net/WpOptionsManager/wiki/How-to-use)
+2. [Use in Forms](https://github.com/media-store-net/WpOptionsManager/wiki/Use-in-Forms)
 
 
 ## Licence and Copyright
