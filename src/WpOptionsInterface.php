@@ -21,9 +21,9 @@ interface WpOptionsInterface
      * Initialisation includes register and set the defaultOptions Value
      * should be called at once by bootstraping the Plugin or Theme
      *
-     * @param string $optionsName
-     * @param string $optionsGroup
-     * @param array $defaultOptions
+     * @param string $optionsName    //
+     * @param string $optionsGroup   //
+     * @param array  $defaultOptions //
      *
      * @return void
      */
@@ -35,22 +35,23 @@ interface WpOptionsInterface
     function getOptions();
 
     /**
-     * @param $names
+     * @param string|array $names //
      *
      * @return mixed
      */
     function getByName($names);
 
     /**
-     * @param array $options
+     * @param array $options //
+     * @param bool  $reload  //
      *
      * @return bool
      */
-    function saveAll($options);
+    function saveAll($options, $reload = true);
 
     /**
-     * @param $names
-     * @param $option
+     * @param string|array $names  //
+     * @param array        $option //
      *
      * @return mixed
      */

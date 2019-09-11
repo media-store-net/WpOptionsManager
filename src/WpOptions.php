@@ -177,13 +177,14 @@ class WpOptions implements WpOptionsInterface
      * Save all options array
      *
      * @param array $options //
+     * @param bool  $relaod  //
      *
      * @return bool|mixed
      */
-    function saveAll($options)
+    function saveAll($options, $relaod = true)
     {
         if (update_option($this->options_name, $options)) :
-            print '<script>window.location.reload();</script>';
+            $relaod ? print '<script>window.location.reload();</script>' : '';
 
             return true;
         else:
