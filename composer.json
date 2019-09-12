@@ -1,6 +1,6 @@
 {
   "name": "media-store-net/wp-options-manager",
-  "description": "A Simple Way to Register Rest Routes to WP",
+  "description": "A Simple Way to handle with wp_options table in your plugin or theme",
   "homepage": "https://github.com/media-store-net/WpOptionsManager",
   "version": "1.0.0",
   "minimum-stability": "stable",
