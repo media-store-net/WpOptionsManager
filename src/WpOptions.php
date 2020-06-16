@@ -12,8 +12,8 @@ namespace MediaStoreNet\WpOptionsManager;
 /**
  * Class WpOptions
  *
- * @author  Artur Voll <kontakt@media-store.net>
  * @package MediaStoreNet\WpOptionsManager
+ * @author  Artur Voll <kontakt@media-store.net>
  */
 class WpOptions implements WpOptionsInterface
 {
@@ -47,6 +47,11 @@ class WpOptions implements WpOptionsInterface
     protected $default_options;
 
     /**
+     * @var string
+     */
+    protected $mode;
+
+    /**
      * Static call of WpOptions Instance
      * if $_instance is null, will create a new Instance of Class
      *
@@ -68,6 +73,31 @@ class WpOptions implements WpOptionsInterface
      */
     public function __construct()
     {
+        $this->mode = 'serialized';
+    }
+
+    /**
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    /**
+     * @param string $mode
+     */
+    public function setMode($mode)
+    {
+        $available_modes = [
+            'serialized',
+            'json'
+        ];
+        if (in_array($mode, $available_modes)) {
+            $this->mode = $mode;
+        }
+
+        return $this;
     }
 
     /**
@@ -80,7 +110,7 @@ class WpOptions implements WpOptionsInterface
      *
      * @return bool|\BadFunctionCallException
      */
-    public function init($optionsName, $optionsGroup, $defaultOptions)
+    public function init($optionsName, $optionsGroup = 'av_wp_options', $defaultOptions = '')
     {
         $this->options_name    = $optionsName;
         $this->options_group   = $optionsGroup;
@@ -139,6 +169,26 @@ class WpOptions implements WpOptionsInterface
     }
 
     /**
+     * @param $str
+     *
+     * @return mixed
+     */
+    protected function fromJson($str)
+    {
+        return json_decode($str, true);
+    }
+
+    /**
+     * @param $val
+     *
+     * @return false|string
+     */
+    protected function toJson($val)
+    {
+        return json_encode($val);
+    }
+
+    /**
      * Get all the options with the given optionsName
      *
      * @return array|mixed
@@ -146,7 +196,9 @@ class WpOptions implements WpOptionsInterface
      */
     public function getOptions()
     {
-        return (array) get_option($this->options_name);
+        return $this->mode === 'json' ?
+            $this->fromJson(get_option($this->options_name)) :
+            get_option($this->options_name) ;
     }
 
     /**
@@ -181,9 +233,13 @@ class WpOptions implements WpOptionsInterface
      *
      * @return bool|mixed
      */
-    function saveAll($options, $relaod = true)
+    function saveAll($options, $relaod = false)
     {
-        if (update_option($this->options_name, $options)) :
+        $save = $this->mode === 'json' ?
+            update_option($this->options_name, $this->toJson($options)) :
+            update_option($this->options_name, $options);
+
+        if ($save) :
             $relaod ? print '<script>window.location.reload();</script>' : '';
 
             return true;
