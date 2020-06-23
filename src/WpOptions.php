@@ -158,10 +158,10 @@ class WpOptions implements WpOptionsInterface
     protected function setDefaultOptions()
     {
         if (function_exists('add_option')) :
-            if (add_option($this->options_name, $this->default_options)) {
-                return true;
+            if ($this->mode === 'json') {
+                return add_option($this->options_name, $this->toJson($this->default_options));
             } else {
-                return false;
+                return add_option($this->options_name, $this->default_options);
             }
         endif;
 
